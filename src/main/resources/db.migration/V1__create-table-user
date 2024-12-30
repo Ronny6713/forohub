@@ -1,0 +1,8 @@
+create table user(
+    bigint id auto-increment not null,
+    username varchar(100) not null,
+    password varchar(300) not null,
+    visible BIT(1) NOT NULL DEFAULT b'1',
+
+    primary key(id)
+);

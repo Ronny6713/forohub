@@ -1,0 +1,8 @@
+create table course(
+    id bigint not null auto_increment,
+    name varchar(100) not null,
+    description varchar(255) not null,
+    visible BIT(1) NOT NULL DEFAULT b'1''
+
+    primary key(id)
+);

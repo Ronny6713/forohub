@@ -1,0 +1,14 @@
+create table topic(
+id bigint not null auto_increment,
+title varchar(100) not null,
+message text not null,
+date datetime not null,
+status varchar(100) not null,
+username varchar(100) not null,
+course varchar(255) not null,
+visible BIT(1) NOT NULL DEFAULT b'1'',
+
+primary_key(id)
+constraint fk_topic_User_id foreig key(User_id) references User(id)
+constraint fk_topic_course_id foreig key(course_id) references Course(id)
+);

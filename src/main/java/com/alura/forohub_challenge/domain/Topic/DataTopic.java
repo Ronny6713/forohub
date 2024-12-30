@@ -1,7 +1,5 @@
 package com.alura.forohub_challenge.domain.Topic;
 
-import com.alura.forohub_challenge.domain.Course.Course;
-import com.alura.forohub_challenge.user.FinalUser;
 
 import java.time.LocalDateTime;
 
@@ -10,6 +8,14 @@ public record DataTopic(
         String message,
         LocalDateTime date,
         StatusTopic status,
-        FinalUser username,
-        Course course) {
+        Long idCourse,
+        Long idUser){
+    public DataTopic(Topic topic) {
+        this(topic.getTitle(),
+                topic.getMessage(),
+                topic.getDate(),
+                topic.getStatus(),
+                topic.getCourse().getId(),
+                topic.getUser().getId());
+    }
 }
