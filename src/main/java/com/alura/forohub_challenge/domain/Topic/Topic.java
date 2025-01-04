@@ -1,19 +1,15 @@
 package com.alura.forohub_challenge.domain.Topic;
 import com.alura.forohub_challenge.domain.Course.Course;
-import com.alura.forohub_challenge.domain.Course.DataUpdateCourse;
 import com.alura.forohub_challenge.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.*;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
 @Entity(name = "topic")
 @Table(name = "topics")
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
 
 public class Topic {
     @Id
@@ -23,17 +19,18 @@ public class Topic {
     private String title;
     @NotBlank
     private String message;
-    @DateTimeFormat
+    @DateTimeFormat(pattern = "HH:mm dd-MM-yyyy")
     private LocalDateTime date;
     @Enumerated(EnumType.STRING)
     private StatusTopic status;
 
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
+    @NotNull
     private Course course;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @NotNull
     private User user;
 
     private boolean visible = true;
@@ -117,7 +114,8 @@ public class Topic {
     public Topic() {
     }
 
-    public void updateTopic(DataUpdateTopic dataUpdate) {
+
+    public void updateTopic(UpdateTopicData dataUpdate) {
         if (dataUpdate.title()!= null) {
             this.title = dataUpdate.title();
         }

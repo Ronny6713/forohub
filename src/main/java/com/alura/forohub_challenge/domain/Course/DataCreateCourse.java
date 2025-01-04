@@ -1,4 +1,10 @@
 package com.alura.forohub_challenge.domain.Course;
 
-public record DataCreateCourse() {
+import jakarta.validation.constraints.NotBlank;
+
+public record DataCreateCourse(
+        @NotBlank
+        String nameCourse,
+        @NotBlank
+        String description) {
 }

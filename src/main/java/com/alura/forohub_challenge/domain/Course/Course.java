@@ -1,21 +1,12 @@
 package com.alura.forohub_challenge.domain.Course;
 
-import com.alura.forohub_challenge.domain.Course.DataCourse;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 
 @Table(name = "course")
 @Entity(name = "courses")
-@AllArgsConstructor
-@NoArgsConstructor
-@Setter
-@Getter
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +26,11 @@ public class Course {
     }
 
     public Course() {
+    }
+
+    public Course(DataCreateCourse dataCreateCourse) {
+        this.nameCourse = dataCreateCourse.nameCourse();
+        this.description = dataCreateCourse.description();
     }
 
     public @NotBlank String getNameCourse() {
@@ -91,12 +87,12 @@ public class Course {
         this.visible = false;
     }
 
-    public void updateCourse(@Valid DataUpdateCourse dataUpdateCourse) {
-        if (dataUpdateCourse.nameCourse() != null) {
-            this.nameCourse = dataUpdateCourse.nameCourse();
+    public void updateCourse(@Valid UpdateCourseData updateCourseData) {
+        if (updateCourseData.nameCourse() != null) {
+            this.nameCourse = updateCourseData.nameCourse();
         }
-        if (dataUpdateCourse.description() != null) {
-            this.description = dataUpdateCourse.description();
+        if (updateCourseData.description() != null) {
+            this.description = updateCourseData.description();
         }
     }
 }

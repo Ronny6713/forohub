@@ -23,30 +23,47 @@ public class ServiceTopic {
     public DataTopic createTopic(DataCreateTopic dataCreateTopic) {
         Course course = courseRepository.findById(dataCreateTopic.idCourse()).orElse(null);
         User user = userRepository.findById(dataCreateTopic.idUser()).orElse(null);
+        var title = dataCreateTopic.title().trim().toLowerCase();
+        var message = dataCreateTopic.message().trim().toLowerCase();
+        boolean topicVerification = topicRepository.existsByTitleAndMessage(title, message);
+        if (topicVerification) {
+            throw new ValidationExceptionApi("The entered topic already exists.");
+        }
         var status = StatusTopic.ACTIVE;
         boolean visible = true;
+
         var date = LocalDateTime.now();
-        //modificar el id de curso y user
-        var topic = new Topic(null, dataCreateTopic.title(), dataCreateTopic.message(),  date, status,course, user,visible);
+        var topic = new Topic(null, dataCreateTopic.title(), dataCreateTopic.message(), date,status,course,user,visible);
         topicRepository.save(topic);
         return new DataTopic(topic);
     }
 
-    public DataTopic updateTopic(Long id, DataUpdateTopic dataUpdateTopic) {
+    public DataTopic updateTopic(Long id, UpdateTopicData updateTopicData) {
         Optional<Topic> optionalTopic = topicRepository.findById(id);
         if (!optionalTopic.isPresent()) {
-            throw new ValidationExceptionApi("El Topico solicitado no existe");
+            throw new ValidationExceptionApi("The requested topic does not exist.");
         }
-        boolean optionalCourse = courseRepository.existsById(dataUpdateTopic.idCourse());
+        boolean optionalCourse = courseRepository.existsById(updateTopicData.idCourse());
         if (!optionalCourse) {
-            throw new ValidationExceptionApi("El Course no existe");
+            throw new ValidationExceptionApi("The course does not exist.");
         }
         Topic topic = optionalTopic.get();
-        topic.updateTopic(dataUpdateTopic);
+        topic.updateTopic(updateTopicData);
+        return new DataTopic(topic);
+    }
+
+    public DataTopic topicByID(Long id) {
+        boolean topicValidation = topicRepository.existsById(id);
+        if (!topicValidation) {
+            throw new ValidationExceptionApi("The topic does not exist.");
+        }
+        var data = topicRepository.findById(id);
+        Topic topic = data.get();
         return new DataTopic(topic);
     }
 
     public void deleteTopic(Long id) {
         topicRepository.deleteById(id);
     }
+
 }
