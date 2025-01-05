@@ -71,7 +71,8 @@ Before getting started, ensure you have the following programs installed on your
    Once the application is up and running, you can test the API using tools like Postman.
 
 
-##SPANISH
+
+#SPANISH
 
 # API REST de Gestión de Cursos y Tópicos
 
@@ -136,23 +137,4 @@ Antes de comenzar, asegúrate de tener instalados los siguientes programas en tu
    ```
 
 6. **Probar la API**:
-   - Una vez que la aplicación esté en funcionamiento, puedes probar la API utilizando herramientas como [Postman](https://www.postman.com/) o [cURL](https://curl.se/).
-   - Las rutas principales de la API estarán disponibles en `http://localhost:8080`.
-
-## Contribuciones
-
-Las contribuciones son bienvenidas. Si deseas contribuir, por favor sigue estos pasos:
-
-1. Haz un fork del repositorio.
-2. Crea una nueva rama (`git checkout -b feature/nueva-caracteristica`).
-3. Realiza tus cambios y haz un commit (`git commit -m 'Agregué una nueva característica'`).
-4. Haz push a la rama (`git push origin feature/nueva-caracteristica`).
-5. Abre un Pull Request.
-
-## Licencia
-
-Este proyecto está bajo la Licencia MIT - consulta el archivo [LICENSE](LICENSE) para más detalles.
-
----
-
-Si tienes preguntas o necesitas más información, no dudes en abrir un issue en el repositorio. ¡Gracias por tu interés!
+   - Una vez que la aplicación esté en funcionamiento, puedes probar la API utilizando herramientas como Postman.
