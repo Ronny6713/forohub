@@ -1,4 +1,4 @@
-package com.alura.forohub_challenge.domain.Course;
+package com.alura.forohub_challenge.domain.course;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,5 +9,7 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 
     Page<Course> findByVisibleTrue(Pageable pageable);
 
-    boolean existsByNameCourseAndDescription(String nameCourse, String description);
+    boolean existsByNameCourse(String nameCourse);
+
+    boolean existsByDescription(String description);
 }

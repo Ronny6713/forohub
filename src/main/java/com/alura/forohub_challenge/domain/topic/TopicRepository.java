@@ -1,4 +1,4 @@
-package com.alura.forohub_challenge.domain.Topic;
+package com.alura.forohub_challenge.domain.topic;
 
 
 import org.springframework.data.domain.Page;

@@ -1,8 +1,9 @@
-package com.alura.forohub_challenge.domain.Topic;
+package com.alura.forohub_challenge.domain.topic;
 
-import com.alura.forohub_challenge.domain.Course.Course;
-import com.alura.forohub_challenge.domain.Course.CourseRepository;
+import com.alura.forohub_challenge.domain.course.Course;
+import com.alura.forohub_challenge.domain.course.CourseRepository;
 import com.alura.forohub_challenge.domain.ValidationExceptionApi;
+import com.alura.forohub_challenge.domain.validation.topicValidation.createTopic.IValidationCreateTopic;
 import com.alura.forohub_challenge.user.User;
 import com.alura.forohub_challenge.user.UserRepository;
 import com.alura.forohub_challenge.user.UserTopicData;
@@ -23,32 +24,31 @@ public class ServiceTopic {
     private CourseRepository courseRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private List <IValidationCreateTopic> validationCreateTopic;
 
 
     public DataTopic createTopic(DataCreateTopic dataCreateTopic) {
-        Course course = courseRepository.findById(dataCreateTopic.idCourse()).orElse(null);
-        User user = userRepository.findById(dataCreateTopic.idUser()).orElse(null);
-        var title = dataCreateTopic.title().trim().toLowerCase();
-        var message = dataCreateTopic.message().trim().toLowerCase();
-        boolean topicVerification = topicRepository.existsByTitleAndMessage(title, message);
-        if (topicVerification) {
-            throw new ValidationExceptionApi("The entered topic already exists.");
+        validationCreateTopic.forEach(v -> v.validation(dataCreateTopic));
+        Optional<Course> course = courseRepository.findById(dataCreateTopic.idCourse());
+        Optional<User> user = userRepository.findById(dataCreateTopic.idUser());
+        if (!course.isPresent()) {
+            throw new ValidationExceptionApi("The course does not exist");
+        } else if (!user.isPresent()) {
+            throw new ValidationExceptionApi("The user does not exist");
         }
-        var status = StatusTopic.ACTIVE;
-        boolean visible = true;
-        var date = (LocalDateTime.now());
-        var topic = new Topic(null, dataCreateTopic.title(), dataCreateTopic.message(),date,status,course,user,visible);
+        var topic = new Topic(null, dataCreateTopic.title(), dataCreateTopic.message(),
+                LocalDateTime.now(),StatusTopic.ACTIVE,course.get(),user.get(),true);
         topicRepository.save(topic);
         return new DataTopic(topic);
     }
 
     public DataTopic updateTopic(Long id, UpdateTopicData updateTopicData) {
         Optional<Topic> optionalTopic = topicRepository.findById(id);
+        Optional <Course> optionalCourse = courseRepository.findById(updateTopicData.idCourse());
         if (!optionalTopic.isPresent()) {
             throw new ValidationExceptionApi("The requested topic does not exist.");
-        }
-        boolean optionalCourse = courseRepository.existsById(updateTopicData.idCourse());
-        if (!optionalCourse) {
+        } else if (!optionalCourse.isPresent()) {
             throw new ValidationExceptionApi("The course does not exist.");
         }
         var date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("hh:mm - dd/MM/yyyy"));
@@ -58,12 +58,11 @@ public class ServiceTopic {
     }
 
     public DataTopic topicByID(Long id) {
-        boolean topicValidation = topicRepository.existsById(id);
-        if (!topicValidation) {
+        Optional<Topic> topicValidation = topicRepository.findById(id);
+        if (!topicValidation.isPresent()) {
             throw new ValidationExceptionApi("The topic does not exist.");
         }
-        var data = topicRepository.findById(id);
-        Topic topic = data.get();
+        Topic topic = topicValidation.get();
         return new DataTopic(topic);
     }
 
@@ -80,17 +79,17 @@ public class ServiceTopic {
         if (list.isEmpty()) {
             throw new ValidationExceptionApi("The user has no topics available.");
         }
-
         List<UserTopicData> topicData = list.stream().map(topic -> {
             return new UserTopicData(
                     topic.getTitle(),
                     topic.getDate().format(DateTimeFormatter.ofPattern("hh:mm - dd/MM/yyyy")),
                     topic.getStatus(),
                     topic.getCourse().getNameCourse(),
-                    topic.getUser().getUsername()
-            );
+                    topic.getUser().getUsername());
         }).collect(Collectors.toList());
         return topicData;
     }
+
+
 
 }

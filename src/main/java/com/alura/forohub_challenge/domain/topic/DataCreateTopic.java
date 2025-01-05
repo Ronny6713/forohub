@@ -1,13 +1,14 @@
-package com.alura.forohub_challenge.domain.Topic;
+package com.alura.forohub_challenge.domain.topic;
 
-
+import jakarta.annotation.Nonnull;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
-public record DataTopic(
+
+public record DataCreateTopic(
         @NotBlank
         String title,
         @NotBlank
@@ -17,14 +18,7 @@ public record DataTopic(
         StatusTopic status,
         @NotNull
         Long idCourse,
-        @NotNull
-        Long idUser){
-    public DataTopic(Topic topic) {
-        this(topic.getTitle(),
-                topic.getMessage(),
-                topic.getDate(),
-                topic.getStatus(),
-                topic.getCourse().getId(),
-                topic.getUser().getId());
-    }
+        @Nonnull
+        Long idUser) {
 }
+

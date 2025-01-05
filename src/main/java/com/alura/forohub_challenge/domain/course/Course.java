@@ -1,4 +1,4 @@
-package com.alura.forohub_challenge.domain.Course;
+package com.alura.forohub_challenge.domain.course;
 
 import jakarta.persistence.*;
 import jakarta.validation.Valid;

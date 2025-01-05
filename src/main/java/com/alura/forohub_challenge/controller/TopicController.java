@@ -1,7 +1,7 @@
 package com.alura.forohub_challenge.controller;
 
 
-import com.alura.forohub_challenge.domain.Topic.*;
+import com.alura.forohub_challenge.domain.topic.*;
 import com.alura.forohub_challenge.user.ServiceUser;
 import com.alura.forohub_challenge.user.UserRepository;
 import jakarta.transaction.Transactional;

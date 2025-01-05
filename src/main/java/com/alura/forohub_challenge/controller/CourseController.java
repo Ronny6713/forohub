@@ -1,6 +1,6 @@
 package com.alura.forohub_challenge.controller;
 
-import com.alura.forohub_challenge.domain.Course.*;
+import com.alura.forohub_challenge.domain.course.*;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/course")
@@ -34,7 +32,7 @@ public class CourseController {
     }
 
     //All courses mode Admin
-    @GetMapping("/admin")
+    @GetMapping("/admin/allcourses")
     public ResponseEntity <Page<DataCourse>> allCourse(@PageableDefault(size = 10, sort = "nameCourse")Pageable pageable) {
         return ResponseEntity.ok(courseRepository.findAll(pageable).map(DataCourse::new));
     }

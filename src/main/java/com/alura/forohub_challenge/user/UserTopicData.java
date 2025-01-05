@@ -1,7 +1,7 @@
 package com.alura.forohub_challenge.user;
 
 
-import com.alura.forohub_challenge.domain.Topic.StatusTopic;
+import com.alura.forohub_challenge.domain.topic.StatusTopic;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

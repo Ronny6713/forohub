@@ -1,5 +1,5 @@
-package com.alura.forohub_challenge.domain.Topic;
-import com.alura.forohub_challenge.domain.Course.Course;
+package com.alura.forohub_challenge.domain.topic;
+import com.alura.forohub_challenge.domain.course.Course;
 import com.alura.forohub_challenge.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

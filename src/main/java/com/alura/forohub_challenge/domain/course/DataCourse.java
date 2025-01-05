@@ -1,6 +1,5 @@
-package com.alura.forohub_challenge.domain.Course;
+package com.alura.forohub_challenge.domain.course;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotBlank;
 
 public record DataCourse(
