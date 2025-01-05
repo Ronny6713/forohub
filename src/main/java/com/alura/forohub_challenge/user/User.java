@@ -3,6 +3,7 @@ package com.alura.forohub_challenge.user;
 import com.alura.forohub_challenge.domain.Topic.Topic;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,7 +28,7 @@ public class User implements UserDetails {
     private String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Topic> topics = new ArrayList<>();
+    private List<Topic> topics ;
 
     private boolean visible = true;
 

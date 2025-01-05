@@ -5,11 +5,15 @@ import com.alura.forohub_challenge.domain.Course.CourseRepository;
 import com.alura.forohub_challenge.domain.ValidationExceptionApi;
 import com.alura.forohub_challenge.user.User;
 import com.alura.forohub_challenge.user.UserRepository;
+import com.alura.forohub_challenge.user.UserTopicData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ServiceTopic {
@@ -19,6 +23,7 @@ public class ServiceTopic {
     private CourseRepository courseRepository;
     @Autowired
     private UserRepository userRepository;
+
 
     public DataTopic createTopic(DataCreateTopic dataCreateTopic) {
         Course course = courseRepository.findById(dataCreateTopic.idCourse()).orElse(null);
@@ -31,9 +36,8 @@ public class ServiceTopic {
         }
         var status = StatusTopic.ACTIVE;
         boolean visible = true;
-
-        var date = LocalDateTime.now();
-        var topic = new Topic(null, dataCreateTopic.title(), dataCreateTopic.message(), date,status,course,user,visible);
+        var date = (LocalDateTime.now());
+        var topic = new Topic(null, dataCreateTopic.title(), dataCreateTopic.message(),date,status,course,user,visible);
         topicRepository.save(topic);
         return new DataTopic(topic);
     }
@@ -47,7 +51,8 @@ public class ServiceTopic {
         if (!optionalCourse) {
             throw new ValidationExceptionApi("The course does not exist.");
         }
-        Topic topic = optionalTopic.get();
+        var date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("hh:mm - dd/MM/yyyy"));
+        var topic = optionalTopic.get();
         topic.updateTopic(updateTopicData);
         return new DataTopic(topic);
     }
@@ -64,6 +69,28 @@ public class ServiceTopic {
 
     public void deleteTopic(Long id) {
         topicRepository.deleteById(id);
+    }
+
+    public List<UserTopicData> listTopicsByUser(Long id) {
+        boolean userExist = userRepository.existsById(id);
+        if (!userExist) {
+            throw new ValidationExceptionApi("User does not exist.");
+        }
+        var list = topicRepository.findAllByUserId(id);
+        if (list.isEmpty()) {
+            throw new ValidationExceptionApi("The user has no topics available.");
+        }
+
+        List<UserTopicData> topicData = list.stream().map(topic -> {
+            return new UserTopicData(
+                    topic.getTitle(),
+                    topic.getDate().format(DateTimeFormatter.ofPattern("hh:mm - dd/MM/yyyy")),
+                    topic.getStatus(),
+                    topic.getCourse().getNameCourse(),
+                    topic.getUser().getUsername()
+            );
+        }).collect(Collectors.toList());
+        return topicData;
     }
 
 }

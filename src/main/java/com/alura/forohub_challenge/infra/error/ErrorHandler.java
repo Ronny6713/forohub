@@ -26,6 +26,13 @@ public class ErrorHandler {
         return ResponseEntity.badRequest().body(error);
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> illegalArgumentException(IllegalArgumentException e) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(e.getMessage());
+    }
+
     public record ErrorData(String field, String error) {
         public ErrorData(FieldError error) {
             this(error.getField(), error.getDefaultMessage());

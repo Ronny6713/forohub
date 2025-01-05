@@ -2,6 +2,8 @@ package com.alura.forohub_challenge.controller;
 
 
 import com.alura.forohub_challenge.domain.Topic.*;
+import com.alura.forohub_challenge.user.ServiceUser;
+import com.alura.forohub_challenge.user.UserRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,10 @@ public class TopicController {
     private TopicRepository topicRepository;
     @Autowired
     private ServiceTopic serviceTopic;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private ServiceUser serviceUser;
 
     @PostMapping
     @Transactional
@@ -49,4 +55,11 @@ public class TopicController {
         serviceTopic.deleteTopic(id);
         return ResponseEntity.noContent().build();
     }
+//   List of Topic by id user
+    @GetMapping("/{id}/all")
+    public ResponseEntity ListByIdUser (@PathVariable Long id) {
+        var list = serviceTopic.listTopicsByUser(id);
+        return ResponseEntity.ok(list);
+    }
 }
+

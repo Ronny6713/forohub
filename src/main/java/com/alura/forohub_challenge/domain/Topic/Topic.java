@@ -23,12 +23,11 @@ public class Topic {
     private LocalDateTime date;
     @Enumerated(EnumType.STRING)
     private StatusTopic status;
-
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
     @NotNull
     private Course course;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     @NotNull
     private User user;
@@ -121,9 +120,6 @@ public class Topic {
         }
         if (dataUpdate.message() != null) {
             this.message = dataUpdate.message();
-        }
-        if (dataUpdate.date() != null) {
-            this.date = dataUpdate.date();
         }
         if (dataUpdate.status() != null) {
             this.status = dataUpdate.status();

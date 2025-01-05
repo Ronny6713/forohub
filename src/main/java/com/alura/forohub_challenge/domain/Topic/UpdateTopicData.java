@@ -9,8 +9,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
 
 public record UpdateTopicData(
-        @Id
-        Long id,
         @NotBlank
         String title,
         @NotBlank
@@ -18,7 +16,6 @@ public record UpdateTopicData(
         @DateTimeFormat(pattern = "HH:mm dd-MM-yyyy")
         LocalDateTime date,
         StatusTopic status,
-        @Nonnull
         Long idCourse,
         @NotNull
         Long idUser) {
