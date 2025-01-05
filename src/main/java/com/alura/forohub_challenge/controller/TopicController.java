@@ -31,10 +31,15 @@ public class TopicController {
         var dateTopic = serviceTopic.createTopic(dataCreateTopic);
         return ResponseEntity.ok(dateTopic);
     }
-
+    //Topic only status active
     @GetMapping
-    public ResponseEntity<Page<DataTopic>> allTopic(@PageableDefault(size = 10, sort = "date") Pageable pageable) {
+    public ResponseEntity<Page<DataTopic>> TopicByStatusActive(@PageableDefault(size = 10, sort = "date") Pageable pageable) {
         return ResponseEntity.ok(topicRepository.findByStatus(StatusTopic.ACTIVE,pageable).map(DataTopic::new));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<Page<DataTopic>> allTopics(@PageableDefault(size = 10, sort = "date") Pageable pageable) {
+        return ResponseEntity.ok(topicRepository.findAll(pageable).map(DataTopic::new));
     }
 
     @GetMapping("/{id}")
